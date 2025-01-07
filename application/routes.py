@@ -20,7 +20,7 @@ def get_todo():
         todo["_id"] = str(todo["_id"])
 
         todo["date_created"] = todo["date_created"].strftime(
-            "%b %d %Y %H:%M:%S")  
+            "%b %d %Y %H:%M:%S")  # This will show in UTC format
         todos.append(todo)
 
     return render_template("view_todos.html", todos=todos)
@@ -34,16 +34,12 @@ def add_todo():
         todo_description = form.description.data
         completed = form.completed.data
 
-        utc_time = datetime.utcnow()
-        ist_time = utc_time.astimezone(timezone('Asia/Kolkata'))
-
-        adjusted_ist_time = ist_time - timedelta(hours=1)
-
+        utc_time = datetime.utcnow()  # Use UTC time directly
         db.todo_flask.insert_one({
             "name": todo_name,
             "description": todo_description,
             "completed": completed,
-            "date_created": adjusted_ist_time
+            "date_created": utc_time  # Store in UTC
         })
         flash("Todo successfully added", "success")
         return redirect("/")
@@ -78,7 +74,7 @@ def update_todo(id):
             "name": todo_name,
             "description": todo_description,
             "completed": completed,
-            "date_created": datetime.utcnow()
+            "date_created": datetime.utcnow()  # Use UTC time here as well
         }})
         flash("Todo successfully updated", "success")
         return redirect("/")
