@@ -1,0 +1,174 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="form-container">
+    <form action="" method="POST" class="form-content">
+        {{ form.csrf_token() }}
+        <fieldset class="form-group">
+            <legend class="form-title">Add ToDo</legend>
+
+            
+            <div class="form-group">
+                <div class="floating-label">
+                    {{ form.name(class="form-control", placeholder="Enter your name") }}
+                    <label class="label">{{ form.name.label.text }}</label>
+                </div>
+                {% for error in form.name.errors %}
+                <div class="error-message">
+                    <span>{{ error }}</span>
+                </div>
+                {% endfor %}
+            </div>
+
+           
+            <div class="form-group">
+                <div class="floating-label">
+                    {{ form.completed(class="form-control", placeholder="Select an option") }}
+                    <label class="label">{{ form.completed.label.text }}</label>
+                </div>
+                {% for error in form.completed.errors %}
+                <div class="error-message">
+                    <span>{{ error }}</span>
+                </div>
+                {% endfor %}
+            </div>
+
+            
+            <div class="form-group">
+                <div class="floating-label">
+                    {{ form.description(class="form-control", placeholder="Write your description") }}
+                    <label class="label">{{ form.description.label.text }}</label>
+                </div>
+                {% for error in form.description.errors %}
+                <div class="error-message">
+                    <span>{{ error }}</span>
+                </div>
+                {% endfor %}
+            </div>
+
+           
+            <div class="form-group">
+                {{ form.submit(class="btn btn-primary") }}
+            </div>
+        </fieldset>
+    </form>
+</div>
+
+<style>
+
+.form-container {
+    max-width: 500px;
+    margin: 50px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    animation: swipe-in 0.8s ease-out;
+}
+
+
+.form-title {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+
+.floating-label {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.floating-label input,
+.floating-label select,
+.floating-label textarea {
+    width: 100%;
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    outline: none;
+    background: #f9f9f9;
+    transition: border 0.3s ease;
+}
+
+.floating-label input:focus,
+.floating-label select:focus,
+.floating-label textarea:focus {
+    border-color: #007bff;
+    background: #fff;
+}
+
+.floating-label input::placeholder,
+.floating-label select::placeholder,
+.floating-label textarea::placeholder {
+    color: transparent;
+}
+
+.floating-label input:focus::placeholder,
+.floating-label select:focus::placeholder,
+.floating-label textarea:focus::placeholder {
+    color: transparent;
+}
+
+.floating-label label {
+    position: absolute;
+    top: 50%;
+    left: 15px;
+    transform: translateY(-50%);
+    background: #fff;
+    padding: 0 5px;
+    font-size: 1rem;
+    color: #aaa;
+    transition: all 0.3s ease;
+    pointer-events: none;
+}
+
+.floating-label input:focus + label,
+.floating-label input:not(:placeholder-shown) + label,
+.floating-label select:focus + label,
+.floating-label select:not(:placeholder-shown) + label,
+.floating-label textarea:focus + label,
+.floating-label textarea:not(:placeholder-shown) + label {
+    top: 0;
+    transform: translateY(-50%) scale(0.9);
+    color: #007bff;
+}
+
+/* Error Message */
+.error-message {
+    color: #dc3545;
+    font-size: 0.9rem;
+    margin-top: 5px;
+}
+
+/* Button Styles */
+.btn {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 5px;
+    background: #007bff;
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.btn:hover {
+    background: #0056b3;
+}
+
+/* Animations */
+@keyframes swipe-in {
+    from {
+        opacity: 0;
+        transform: translateX(-50%);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+</style>
+{% endblock %}

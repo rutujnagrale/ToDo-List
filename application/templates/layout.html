@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+   
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.12.5/dist/sweetalert2.all.min.js"></script>
+
+    {% if title %}
+    <title>Flask - {{ title }}</title>
+    {% else %}
+    <title>Flask</title>
+    {% endif %}
+
+  </head>
+  <body style="font-family: 'Inter', sans-serif; background-color: #f8f9fa; margin: 0; padding: 0;">
+    
+    <header>
+      <nav
+        class="navbar navbar-expand-lg navbar-dark"
+        style="
+          background: linear-gradient(90deg, #4e54c8, #8f94fb);
+          box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        "
+      >
+        <a
+          class="navbar-brand"
+          href="{{ url_for('get_todo') }}"
+          style="
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #fff !important;
+          "
+        >
+          <i class="fas fa-tasks"></i> Todo App
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+  
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                href="{{ url_for('get_todo') }}"
+                style="
+                  font-size: 1.2rem;
+                  color: #fff !important;
+                  font-weight: 500;
+                  transition: transform 0.3s ease;
+                "
+                onmouseover="this.style.transform='scale(1.1)';"
+                onmouseout="this.style.transform='scale(1)';"
+              >
+                <i class="fas fa-home"></i> Home
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+  
+    
+    <main
+      class="container-fluid"
+      style="margin-top: 40px; display: flex; justify-content: center;"
+    >
+      <div
+        class="content-box"
+        style="
+          background: #fff;
+          padding: 25px;
+          border-radius: 15px;
+          box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.15);
+          width: 90%;
+          max-width: 800px;
+          transition: all 0.3s ease;
+        "
+        onmouseover="this.style.transform='scale(1.02)'; this.style.boxShadow='0px 8px 20px rgba(0, 0, 0, 0.2)';"
+        onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0px 6px 15px rgba(0, 0, 0, 0.15)';"
+      >
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <script>
+          Swal.fire({
+            title: "{{ category.title() }}!",
+            text: "{{ message }}",
+            icon: "{{ category }}",
+            closeOnConfirm: false,
+          });
+        </script>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+  
+        <h1
+          style="
+            font-size: 2.3rem;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 25px;
+            color: #4e54c8;
+          "
+        >
+          Welcome to the Todo App
+        </h1>
+        {% block content %} {% endblock content %}
+      </div>
+    </main>
+  
+   
+<a
+href="{{ url_for('add_todo') }}"
+style="
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: linear-gradient(90deg, #4e54c8, #8f94fb);
+  color: #fff;
+  font-size: 1.5rem;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  text-decoration: none;
+"
+onmouseover="this.style.transform='scale(1.1)';"
+onmouseout="this.style.transform='scale(1)';"
+title="Add Todo"
+>
+<span style="font-size: 2rem; font-weight: bold;">+</span>
+</a>
+  </body>
+  
+
+   
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

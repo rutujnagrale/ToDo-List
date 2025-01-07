@@ -1,0 +1,195 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="todo-container">
+  <div class="todo-list">
+    {% for todo in todos %}
+    <div class="todo-card animate-card">
+      <div class="card-body">
+        {% if todo.completed == "YES" %}
+        <h5 class="card-title completed">{{ todo.name }}</h5>
+        {% else %}
+        <h5 class="card-title">{{ todo.name }}</h5>
+        {% endif %}
+        <p class="card-date">{{ todo.date_created }}</p>
+        <p class="card-description">{{ todo.description }}</p>
+
+        <div class="card-actions">
+          <a
+            href="{{ url_for('update_todo', id=todo._id) }}"
+            class="btn btn-update"
+          >
+            Update
+          </a>
+          <a
+            href="{{ url_for('delete_todo', id=todo._id) }}"
+            class="btn btn-delete"
+          >
+            Delete
+          </a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  {% if todos %}
+  
+  <form method="POST" action="{{ url_for('delete_all_todos') }}">
+    <button type="submit" class="btn-delete-all">
+      Delete All
+    </button>
+  </form>
+  {% endif %}
+</div>
+
+<style>
+
+.todo-container {
+  max-width: 600px;
+  margin: 50px auto;
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+
+.todo-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+
+.todo-card {
+  background: #fff;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+
+.card-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333;
+  margin: 0;
+}
+
+.card-title.completed {
+  text-decoration: line-through;
+  color: #6c757d;
+}
+
+
+.card-date {
+  font-size: 0.85rem;
+  color: #6c757d;
+}
+
+.card-description {
+  font-size: 1rem;
+  color: #555;
+}
+
+
+.card-actions {
+  display: flex;
+  gap: 10px;
+}
+
+
+.btn {
+  padding: 8px 15px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  border: 2px solid transparent;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+  background: transparent; 
+}
+
+.btn-update {
+  border-color: #007bff; 
+  color: #007bff; 
+}
+
+.btn-update:hover {
+  background: #007bff; 
+  color: #fff;
+}
+
+.btn-delete {
+  border-color: #dc3545; 
+  color: #dc3545; 
+}
+
+.btn-delete:hover {
+  background: #dc3545; 
+  color: #fff; 
+}
+
+
+.btn-delete-all {
+  align-self: flex-end;
+  background: #dc3545; 
+  color: #fff;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.btn-delete-all:hover {
+  background: #c82333;
+}
+
+
+@keyframes float-in {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+</style>
+
+<script>
+  
+  document.addEventListener("DOMContentLoaded", function () {
+    const cards = document.querySelectorAll(".animate-card");
+    cards.forEach((card, index) => {
+      setTimeout(() => {
+        card.style.animation = "float-in 0.5s ease forwards";
+      }, index * 150); 
+    });
+  });
+
+  
+  document.querySelectorAll(".card-date").forEach(function (dateElement) {
+    const utcDate = new Date(dateElement.textContent);
+    const localDate = utcDate.toLocaleString("en-IN", {
+      timeZone: "Asia/Kolkata",
+      hour12: false,
+    });
+    dateElement.textContent = localDate;
+  });
+</script>
+{% endblock %}
